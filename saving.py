@@ -1,61 +1,67 @@
 import os
-import datetime
-import json
+def check_access():
+   #check if config file directory and notes directory exists, if it doesnt create respectively and return true
+  if configdir_exists() and Notesdir_exists() and check_notes_exists:
+    return True
+  else:
+    create_configdir()
+    create_notesdir()
+    return True
+       
+
+def saving_dir():
+  if not os.path.exists(f'{os.getcwd()}'+'Saving'):
+    os.mkdir(os.path.join(f'{os.getcwd()}','Saving'))
+  return True  
 
 
-os.mkdir("Notes") if "Notes" not in os.listdir() else None
-os.mkdir("Note Config") if "Note Config" not in os.listdir() else None
+def configdir_exists():
+     if os.path.exists(return_configdir()):
+      return True
 
-if "App Config.txt" not in os.listdir():
-    file_config = open("App Config.txt","w+")
-    file_config.write("1")
-    file_config.close()
 
-file_config = open("App Config.txt","r+")
-count = int(file_config.read())
-def read():
-    _ = open("App Config.txt", "r+")
-    _1 = _.read()
-    _.close()
-    return _1
+def Notesdir_exists():
+  if os.path.exists(return_configdir()):
+      return True
+  else:
+    return False    
+     #check if notes dir exists
 
-def write(text):
-    _ = open("App Config.txt", "r+")
-    _.write(text)
-    _.close()
 
-def clear():
-    _ = open("App Config.txt", "w+")
-    _.close()
+def create_configdir():
+  os.mkdir(os.path.join(f'{os.getcwd()}'+'SAVING','CONFIGURATION'))
+    #make config directory
 
-def config(note_id,**kwargs):
-    print(note_id)
-    __file_name = f"{os.getcwd()}/Note Config/{note_id}.json"
-    __f =open(__file_name,"r+")
-    data = json.load(__f)
-    for i in kwargs:
-        data[i] = kwargs[i]
 
-    with open(__file_name, 'w') as outfile:
-        outfile.write(str(data).replace("'", '"'))
+def create_notesdir():
+  os.mkdir(os.path.join(f'{os.getcwd()}','SAVING','NOTES'))
+    #make notes config dir
 
-def get_config(note_name):
-    __file_name = f"{os.getcwd()}/Note Config/{[i for i in os.listdir(fr'{os.getcwd()}/Note Config') if i[:len(note_name)]== note_name][0]}"
-    __f = open(__file_name, "r+")
-    data = json.load(__f)
-    __f.close()
-    return data
 
-def create_note(note_name):
-    global count
-    t = datetime.datetime.now()
-    file_config.truncate(4)
-    count += 1
-    note_file = open(f"{os.getcwd()}/Notes/{f'{count:0>5}'}.txt","w+")
-    config_file = open(f"{os.getcwd()}/Note Config/{f'{count:0>5}'}.json","w+")
-    config_file.write("{}")
-    note_file.close()
-    config_file.close()
-    write(f"{count:0>5}")
-    config(f"{count:0>5}",id =f"{count:0>5}",name=note_name,created_at = [t.minute,t.hour,t.day,t.month,t.year])
+def check_notes_exists():
+  #returns true if both note file and respective json file exists
+  configdir = []
+  notesdir = []
+  for  files in os.walk(return_notesdir()):
+    for i in files:
+      configdir.append(os.path.splitext(os.path.join(f'{return_notesdir()}',i))[0])
+  
+  for files in os.walk(return_configdir()):
+    for i in files:
+      notesdir.append(os.path.splitext(os.path.join(f'{return_configdir()}',i))[0])    
+  if set(configdir)== set(notesdir):
+    return True
+
+  
+
+    
+
+def return_configdir():
+  return os.path.join(f'{os.getcwd()}','SAVING','CONFIGURATION')
+    
+
+def return_notesdir():
+  #returns notes directory
+  return os.path.join(f'{os.getcwd()}','SAVING','NOTES')
+    
 
