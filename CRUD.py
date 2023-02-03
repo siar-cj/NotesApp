@@ -21,10 +21,21 @@ def create_note(filename, subject, other_info, content):
     a = {}
     a[filename] = [subject, other_info]
     try:
-        with open(new_json_file, 'w') as f:
-            json.dump(a,f)
-        with open(new_file, "w") as f:
-            f.write(content)
+        try:
+            with open(new_json_file, 'w') as f:
+                json.dump(a,f)
+        except TypeError as f:
+            print(f"An error occurred while encoding data to JSON: {f}")    
+        try:
+            with open(new_file, "w") as f:
+                f.write(content)
+        except TypeError as f:
+            print(f"An error occurred while encoding data to text file: {f}")
+    except OSError as f:
+        print(f'{f},went wrong try again.')
+    
+    
+
 
     
 
@@ -40,8 +51,8 @@ def read_notes():
     try:
         with open(directory) as f:
             print(f.read())
-    except:
-        print('An error occurred')
+    except OSError as f:
+        print(f'{f},went wrong try again.')
     
 
 
@@ -52,8 +63,8 @@ def update_note(filename=None,content):
     try:
         with open(file_path,"a") as f:
             f.write('\n'+content)
-    except:
-        print("An error occurred")
+    except OSError as f:
+        print(f'{f},went wrong try again.')
     
 
 def delete_note(filename=None):
@@ -65,13 +76,5 @@ def delete_note(filename=None):
         os.remove(file_path)
         os.remove(file_path1)
         print('files removed')
-    except:
-        print('An error occurred')
-        
-
-    
-
-        
-
-    
-
+    except OSError as f:
+        print(f'{f},went wrong try again.')
