@@ -41,7 +41,7 @@ def read_notes():
         with open(directory) as f:
             print(f.read())
     except:
-        print('no such file exists')
+        print('An error occurred')
     
 
 
@@ -67,6 +67,10 @@ def delete_note(filename=None):
         print('files removed')
     except:
         print('An error occurred')
+        
+
+    
+
         
 
     
