@@ -1,12 +1,12 @@
 import os
-import saving
 import json
-notes_directory = saving.returnnotesdirectory()
-config_directory = saving.returnconfigdirectory()
-directory = saving.returndirectory()
+import saving
+
+notes_dir = saving.returnnotesdirectory()
+config_dir = saving.returnconfigdirectory()
 
 
-def ask_for_info():
+def get_note_info_from_user():
     filename = input("Enter header:").strip()
     subject = input("Enter subject:")
     other_info = input("enter additional info")
@@ -14,44 +14,60 @@ def ask_for_info():
     return filename, subject, other_info, content
 
 
-def create(filename, subject, other_info, content):
-    new_file = os.path.join(notes_directory,filename+".txt")
-    new_jsonfile =os.path.join(config_directory,filename+".json")
+
+def create_note(filename, subject, other_info, content):
+    new_file = os.path.join(notes_dir, f'{filename}.txt')
+    new_json_file = os.path.join(config_dir, f'{filename}.json')
     a = {}
-    content  = input()
-    a[filename] = [subject,other_info]
-    json.dump(a,new_jsonfile)
-    text_file = open(new_file,"w")
-    text_file.write(content)
-    text_file.close()
+    a[filename] = [subject, other_info]
+    try:
+        with open(new_json_file, 'w') as f:
+            json.dump(a,f)
+        with open(new_file, "w") as f:
+            f.write(content)
+
+    
 
 
-def read():
-    files = os.listdir(notes_directory)
+def read_notes():
+    files = os.listdir(notes_dir)
     for i in files:
         print(i)
-    open_note = input()  
-    directory = os.path.join()
-    with open(directory) as f:
-        print(f.read())
-
-
-def update(filename = input("Enter note to be updated:").strip()):
+    open_note = input("enter note title to be read") 
+    while not os.path.exists(os.path.join(notes_dir, f'{open_note}.txt') and not os.path.join(notes_dir, f'{open_note}.json')):
+         open_note = input("enter note title to be read") 
+    directory = os.path.join(notes_dir, f'{open_note}.txt')
+    try:
+        with open(directory) as f:
+            print(f.read())
+    except:
+        print('no such file exists')
     
-    if saving.check_notes_exists(filename):
-        f = open(filename,'a+')
-        content = input()
-        f.write(content)
-        f.close()
-    else:
-        print("NO such file exists")
 
 
-def delete(filename = input("Enter note to be updated:").strip()):
-    if saving.check_notes_exists(filename):
-        os.remove(f'{notes_directory}+{filename}+".txt"')
-        os.remove(f'{config_directory}+{filename}+".json"')
-        return True
-    else:
-        print("No such directory exists")
-        return False 
+def update_note(filename=None,content):
+    while not filename or not os.path.exists(os.path.join(notes_dir,filename+'.txt')or not os.path.join(notes_dir,f'{filename}'+'.json')):
+        filename = input("Enter note to be updated:").strip()
+    file_path = os.path.join(notes_dir,f'{filename}'+'.txt') 
+    try:
+        with open(file_path,"a") as f:
+            f.write('\n'+content)
+    except:
+        print("An error occurred")
+    
+
+def delete_note(filename=None):
+    while not filename or not os.path.exists(os.path.join(notes_dir,filename+'.txt')or not os.path.join(notes_dir,f'{filename}'+'.json')):
+        filename = input("Enter note to be deleted:").strip()
+    file_path = os.path.join(notes_dir,f'{filename}'+'.txt')
+    file_path1 =  os.path.join(notes_dir,f'{filename}'+'.json')  
+    try:
+        os.remove(file_path)
+        os.remove(file_path1)
+        print('files removed')
+    except:
+        print('An error occurred')
+        
+
+    
+
