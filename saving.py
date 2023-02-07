@@ -14,7 +14,7 @@ def check_access():
 def saving_dir():
     try:
         if not os.path.exists(os.path.join(f'{os.getcwd()}','Saving')):
-            os.mkdir(os.path.join(f'{os.getcwd()}','Saving'))
+            os.mkdir(os.path.join(str({os.getcwd()}),'Saving'))
             return True  
     except OSError as f:
          print(f"{f}: occurred try again")   
@@ -90,7 +90,3 @@ def return_notesdir():
         return os.path.join(f'{os.getcwd()}','SAVING','NOTES')
     except OSError as f:
          print(f"{f}: occurred try again")   
-check_access()    
-  
-
-
