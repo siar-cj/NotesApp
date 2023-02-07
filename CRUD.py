@@ -2,8 +2,8 @@ import os
 import json
 import saving
 
-notes_dir = saving.returnnotesdirectory()
-config_dir = saving.returnconfigdirectory()
+notes_dir = saving.return_notesdir()
+config_dir = saving.return_configdir()
 
 
 def get_note_info_from_user():
@@ -15,7 +15,8 @@ def get_note_info_from_user():
 
 
 
-def create_note(filename, subject, other_info, content):
+def create_note():
+    filename,subject,other_info,content = get_note_info_from_user()
     new_file = os.path.join(notes_dir, f'{filename}.txt')
     new_json_file = os.path.join(config_dir, f'{filename}.json')
     a = {}
@@ -56,7 +57,7 @@ def read_notes():
     
 
 
-def update_note(filename=None,content):
+def update_note(filename,content):
     while not filename or not os.path.exists(os.path.join(notes_dir,filename+'.txt')or not os.path.join(notes_dir,f'{filename}'+'.json')):
         filename = input("Enter note to be updated:").strip()
     file_path = os.path.join(notes_dir,f'{filename}'+'.txt') 
@@ -78,3 +79,6 @@ def delete_note(filename=None):
         print('files removed')
     except OSError as f:
         print(f'{f},went wrong try again.')
+
+ 
+
