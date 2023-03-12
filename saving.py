@@ -1,92 +1,86 @@
 import os
-def check_access():
-   #check if config file directory and notes directory exists, if it doesnt create respectively and return true
+import logging
+
+# Configure the logging module
+def create_logger():
     try:
-        if configdir_exists() and Notesdir_exists() and check_notes_exists():
+
+        with open(a:=os.path.join(return_saving_dir(), 'notesapp.log'), 'x'):
+            pass  # create the file if it doesn't exist
+        logging.basicConfig(filename=a, level=logging.INFO)
+    except OSError as e:
+        logging.error(f"{e}: occurred while creating logger")
+
+def check_access():
+    try:
+        create_saving_dir()
+        create_logger()
+        if configdir_exists() and notesdir_exists() and check_notes_exists():
             return True
         else:
+            print('creating notes and config directories')
             create_configdir()
             create_notesdir()
             return True
-    except OSError as f:
-        print(f"{f}: occurred try again")   
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking access")
 
-def saving_dir():
+def create_saving_dir():
     try:
-        if not os.path.exists(os.path.join(f'{os.getcwd()}','Saving')):
-            os.mkdir(os.path.join(str({os.getcwd()}),'Saving'))
-            return True  
-    except OSError as f:
-         print(f"{f}: occurred try again")   
+        if not os.path.exists(return_saving_dir()):
+            os.mkdir(return_saving_dir())
+            return True
+        else:
+            return False
+    except OSError as e:
+        logging.error(f"{e}: occurred while creating saving directory")
+
+def saving_dir_exists():
+    try:
+        return os.path.exists(return_saving_dir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking saving directory")
 
 def configdir_exists():
     try:
-        if os.path.exists(return_configdir()):
-            return True
-    except OSError as f:
-         print(f"{f}: occurred try again")   
+        return os.path.exists(return_configdir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking config directory")
+        return False
 
-
-def Notesdir_exists():
+def notesdir_exists():
     try:
-
-        if os.path.exists(return_configdir()):
-            return True
-        else:
-            return False    
-     #check if notes dir exists
-    except OSError as f:
-         print(f"{f}: occurred try again")   
-
+        return os.path.exists(return_notesdir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking notes directory")
+        return False
 
 def create_configdir():
     try:
-        os.mkdir(os.path.join(f'{os.getcwd()}','SAVING'))
-        os.mkdir(os.path.join(f'{os.getcwd()}','SAVING','CONFIGURATION'))
-    #make config directory
-    except OSError as f:
-         print(f"{f}: occurred try again")   
+        os.mkdir(return_configdir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while creating config directory")
 
+def return_configdir():
+    return os.path.join(return_saving_dir(), 'CONFIGURATION')
+
+def return_notesdir():
+    return os.path.join(return_saving_dir(), 'NOTES')
+
+def return_saving_dir():
+    return os.path.join(os.getcwd(), 'SAVING')
 
 def create_notesdir():
     try:
-        os.mkdir(os.path.join(f'{os.getcwd()}','SAVING','NOTES'))
-    #make notes config dir
-    except OSError as f:
-         print(f"{f}: occurred try again")   
-
+        os.mkdir(return_notesdir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while creating notes directory")
 
 def check_notes_exists():
     try:
-  #returns true if both note file and respective json file exists
-        configdir = []
-        notesdir = []
-        for  files in os.walk(return_notesdir()):
-            for i in files:
-                configdir.append(os.path.splitext(os.path.join(f'{return_notesdir()}',i))[0])
-        
-        for files in os.walk(return_configdir()):
-            for i in files:
-                notesdir.append(os.path.splitext(os.path.join(f'{return_configdir()}',i))[0])    
-        if set(configdir)== set(notesdir):
+        notes_files = [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(return_notesdir())]
+        config_files = [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(return_configdir())]
+        if set(notes_files) == set(config_files):
             return True
-    except OSError as f:
-         print(f"{f}: occurred try again")   
-
-  
-
-    
-
-def return_configdir():
-    try:
-        return os.path.join(f'{os.getcwd()}','SAVING','CONFIGURATION')
-    except OSError as f:
-         print(f"{f}: occurred try again")   
-        
-
-def return_notesdir():
-    try:
-  #returns notes directory
-        return os.path.join(f'{os.getcwd()}','SAVING','NOTES')
-    except OSError as f:
-         print(f"{f}: occurred try again")   
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking notes existence")
