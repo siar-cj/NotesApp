@@ -1,112 +1,106 @@
 import os
-import json
-import saving
 import logging
 
-# Define the directories and menu
-notes_dir = saving.return_notesdir()
-config_dir = saving.return_configdir()
-main_menu = main.menu()
-
-# Define the logger and set logging level
-logger = saving.return_logger
-logging.basicConfig(filename=logger, level=logging.INFO)
-
-# Define function to get note information from user
-def get_note_info_from_user():
-    filename = input("Enter header:").strip()
-    subject = input("Enter subject:")
-    other_info = input("enter additional info")
-    content = input("content: ")
-    return filename, subject, other_info, content
-
-# Define function to create a new note
-def create_note():
-    # Get note information from user
-    filename, subject, other_info, content = get_note_info_from_user()
-    
-    # Define paths for new files
-    new_file = os.path.join(notes_dir, filename+'.txt')
-    new_json_file = os.path.join(config_dir, filename+'.json')
-    
-    # Create dictionary with note information
-    a = {}
-    a[filename] = [subject, other_info]
-    
-    # Write note information to JSON file
+# Configure the logging module
+def create_logger():
     try:
-        try:
-            with open(new_json_file, 'w') as f:
-                json.dump(a,f)
-        except TypeError as f:
-            logging.error(f"An error occurred while encoding data to JSON: {f}")
-            main_menu
-        # Write note content to text file
-        try:
-            with open(new_file, "w") as f:
-                f.write(content)
-        except TypeError as f:
-            logging.error(f"An error occurred while encoding data to text file: {f}")
-            main_menu
-   except OSError as e:
-        logging.error(f"{e}: occurred while creating note ")
-        main_menu
-    
-# Define function to read notes
-def read_notes():
-    # List all notes
-    files = os.listdir(notes_dir)
-    for i in files:
-        print(i)
-    # Get note to be read from user
-    open_note = input("enter note title to be read")
-    c = 3
-    # Check if note exists, allow 3 attempts
-    while not os.path.exists(os.path.join(notes_dir, f'{open_note}.txt') and not os.path.join(notes_dir, f'{open_note}.json'))and c>=0:
-         open_note = input("enter note title to be read")
-         c-=1
-    else:
-        directory = os.path.join(notes_dir, open_note+'.txt')
-        # Read note content from text file
-        try:
-            with open(directory) as f:
-                print((f.read()))
-        except OSError as f:
-            logging.error(f'{f},went wrong try again.')
-    main_menu
-    
-# Define function to update a note
-def update_note(filename,content):
-    c = 3
-    # Check if note exists, allow 3 attempts
-    while not filename or not os.path.exists(os.path.join(notes_dir,filename+'.txt')or not os.path.join(notes_dir,f'{filename}'+'.json'))and c>=0:
-        filename = input("Enter note to be updated:").strip()
-        c-=1
-    else:
-        file_path = os.path.join(notes_dir,filename+'.txt') 
-        # Append new content to existing note
-        try:
-            with open(file_path,"a") as f:
-                f.write('\n'+content)
-        except OSError as f:
-            logging.error(f'{f},went wrong try again.')
-    main_menu
-    
-# Define function to delete a note
-def delete_note(filename=None):
-    c = 3
-    # Check if note exists, allow 3 attempts
-    while not filename or not os.path.exists(os.path.join(notes_dir,filename+'.txt')or not os.path.join(notes_dir,f'{filename}'+'.json')) and c>=0:
-        filename = input("Enter note to be deleted:").strip()
-        c-=1
-    else:
-        file_path = os.path.join(notes_dir,filename+'.txt')
-        file_path1 =  os.path.join(notes_dir,filename+'.json')  
-        try:
-            os.remove(file_path)
-            os.remove(file_path1)
-            print('files removed')
-        except OSError as f:
-            logging.error(f'{f},went wrong try again.')
-    main_menu
+        # Create a log file in the saving directory
+        with open(a:=os.path.join(return_saving_dir(), 'notesapp.log'), 'x'):
+            pass  # create the file if it doesn't exist
+        # Set up the logging module to use the log file
+        logging.basicConfig(filename=a, level=logging.INFO)
+    except OSError as e:
+        logging.error(f"{e}: occurred while creating logger")
 
+def check_access():
+    try:
+        # Check if the saving directory, config directory, notes directory, and notes files exist
+        create_saving_dir()
+        create_logger()
+        if configdir_exists() and notesdir_exists() and check_notes_exists():
+            # If they do, return True
+            return True
+        else:
+            # If they don't, create the config and notes directories and return True
+            print('creating notes and config directories')
+            create_configdir()
+            create_notesdir()
+            return True
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking access")
+
+def create_saving_dir():
+    try:
+        # Check if the saving directory exists, and create it if it doesn't
+        if not os.path.exists(return_saving_dir()):
+            os.mkdir(return_saving_dir())
+            return True
+        else:
+            return False
+    except OSError as e:
+        logging.error(f"{e}: occurred while creating saving directory")
+
+def saving_dir_exists():
+    try:
+        # Check if the saving directory exists
+        return os.path.exists(return_saving_dir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking saving directory")
+
+def configdir_exists():
+    try:
+        # Check if the config directory exists
+        return os.path.exists(return_configdir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking config directory")
+        return False
+
+def notesdir_exists():
+    try:
+        # Check if the notes directory exists
+        return os.path.exists(return_notesdir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while checking notes directory")
+        return False
+
+def create_configdir():
+    try:
+        # Create the config directory
+        os.mkdir(return_configdir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while creating config directory")
+
+def return_configdir():
+    # Return the path to the config directory in the saving directory
+    return os.path.join(return_saving_dir(), 'CONFIGURATION')
+
+def return_notesdir():
+    # Return the path to the notes directory in the saving directory
+    return os.path.join(return_saving_dir(), 'NOTES')
+
+def return_saving_dir():
+    # Return the path to the saving directory in the current working directory
+    return os.path.join(os.getcwd(), 'SAVING')
+
+def return_logger():
+    # Return the path to the logger file in the current working directory
+    return os.path.join(return_saving_dir(), 'notesapp.log')
+    
+
+def create_notesdir():
+    try:
+        # Create the notes directory
+        os.mkdir(return_notesdir())
+    except OSError as e:
+        logging.error(f"{e}: occurred while creating notes directory")
+
+def check_notes_exists():
+    try:
+        # Get a list of note file names from the notes directory and the config directory,
+        # and check if they have the same set of names
+        notes_files = [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(return_notesdir())]
+        config_files = [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(return_configdir())]
+        if set(notes_files) == set(config_files):
+            return True
+    except OSError as e:
+        logging.error(f"{e}:occurred while checking notes existence")
