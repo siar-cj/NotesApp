@@ -32,13 +32,7 @@ To get started with the Python Notes Application, follow these steps:
    cd saving
    ```
 
-3. Install the required Python packages:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Run the application:
+3. Run the application:
 
    ```bash
    Python NotesApp.py
