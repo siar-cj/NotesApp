@@ -38,6 +38,7 @@ Failure to comply with this Code of Conduct may result in temporary or permanent
 If you have any questions, concerns, or need to report an issue related to the Code of Conduct or the Python Notes Application community, please reach out to the project maintainers using the following contact information:
 
 
-- Discord: [BYDPP+](https://discord.gg/bydpp)
+- Discord: [+BYDPP](https://discord.gg/bydpp)
 
 We appreciate your cooperation and dedication to upholding this Code of Conduct. Let's work together to build a supportive and inclusive community for the Python Notes Application.
+
