@@ -81,7 +81,6 @@ When participating in discussions or interactions within the community, please k
 
 If you have any further questions or need assistance with contributing to the Python Notes Application, you can reach out to the project maintainers and the community on Discord:
 
-- Discord: [+BYDPP](https://discord.gg/bydpp)
+- Discord: [BYDPP+](https://discord.gg/bydpp)
 
 We appreciate your interest and contributions to the project. Together, let's make the Python Notes Application better for everyone!
-
