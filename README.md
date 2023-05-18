@@ -64,7 +64,7 @@ Once you have launched the application, you can use the following commands:
 
 If you have any questions, suggestions, or feedback, feel free to join our Discord community:
 
-- Discord: [Python Notes Application Community](https://discord.gg/bydpp)
+- Discord: [BYDPP+](https://discord.gg/bydpp)
 
 Please note that the Discord link provided is an invitation to a community and may have an expiration date. If the link is no longer valid, you can reach out to Lugia#1347 or Alexandros#6106 on Discord.
 
