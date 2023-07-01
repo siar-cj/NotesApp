@@ -1,17 +1,12 @@
 import os
 import json
 import saving
-import logging
+from logger import log_decorator
 
 # Define the directories and menu
 notes_dir = saving.return_notesdir()
 config_dir = saving.return_configdir()
-main_menu = main.menu()
-
-# Define the logger and set logging level
-logger = saving.return_logger
-logging.basicConfig(filename=logger, level=logging.INFO)
-
+@log_decorator
 # Define function to get note information from user
 def get_note_info_from_user():
     filename = input("Enter header:").strip()
@@ -19,7 +14,7 @@ def get_note_info_from_user():
     other_info = input("enter additional info")
     content = input("content: ")
     return filename, subject, other_info, content
-
+@log_decorator
 # Define function to create a new note
 def create_note():
     # Get note information from user
@@ -34,24 +29,17 @@ def create_note():
     a[filename] = [subject, other_info]
     
     # Write note information to JSON file
-    try:
-        try:
-            with open(new_json_file, 'w') as f:
+    with open(new_json_file, 'w') as f:
                 json.dump(a,f)
-        except TypeError as f:
-            logging.error(f"An error occurred while encoding data to JSON: {f}")
-            main_menu
+                
         # Write note content to text file
-        try:
-            with open(new_file, "w") as f:
+    with open(new_file, "w") as f:
                 f.write(content)
-        except TypeError as f:
-            logging.error(f"An error occurred while encoding data to text file: {f}")
-            main_menu
-   except OSError as e:
-        logging.error(f"{e}: occurred while creating note ")
-        main_menu
-    
+                
+ 
+        
+        
+@log_decorator    
 # Define function to read notes
 def read_notes():
     # List all notes
@@ -68,13 +56,11 @@ def read_notes():
     else:
         directory = os.path.join(notes_dir, open_note+'.txt')
         # Read note content from text file
-        try:
-            with open(directory) as f:
+        with open(directory) as f:
                 print((f.read()))
-        except OSError as f:
-            logging.error(f'{f},went wrong try again.')
-    main_menu
+        
     
+@log_decorator    
 # Define function to update a note
 def update_note(filename,content):
     c = 3
@@ -85,13 +71,11 @@ def update_note(filename,content):
     else:
         file_path = os.path.join(notes_dir,filename+'.txt') 
         # Append new content to existing note
-        try:
-            with open(file_path,"a") as f:
+        with open(file_path,"a") as f:
                 f.write('\n'+content)
-        except OSError as f:
-            logging.error(f'{f},went wrong try again.')
-    main_menu
+        
     
+@log_decorator   
 # Define function to delete a note
 def delete_note(filename=None):
     c = 3
@@ -103,11 +87,9 @@ def delete_note(filename=None):
         file_path = os.path.join(notes_dir,filename+'.txt')
         file_path1 =  os.path.join(notes_dir,filename+'.json')  
         #delete config and text file
-        try:
-            os.remove(file_path)
-            os.remove(file_path1)
-            print('files removed')
-        except OSError as f:
-            logging.error(f'{f},went wrong try again.')
-    main_menu
+        os.remove(file_path)
+        os.remove(file_path1)
+        print('files removed')
+        
+    
 
