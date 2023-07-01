@@ -2,7 +2,9 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from tkinter import PhotoImage
 import os
+import logger as l
 
+@l.log_decorator
 def loading_screen(root):
     splash_screen = tk.Toplevel(root)
     splash_screen.title("Loading...")
@@ -34,7 +36,7 @@ def loading_screen(root):
     button.image = button_image  # Keep a reference to the image
     button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-
+@l.log_decorator
 def show_main_screen(root, splash_screen):
     global delete_photo
     splash_screen.destroy()
@@ -111,7 +113,7 @@ def show_main_screen(root, splash_screen):
     read_button.config(borderwidth=0, relief=tk.FLAT, highlightthickness=0, bg="#FBFDAD",
                        highlightbackground="#FBFDAD", highlightcolor="#FBFDAD", bd=0)
 
-
+@l.log_decorator
 def main():
     root = tk.Tk()
     root.withdraw()  # Hide the main root window
@@ -119,7 +121,6 @@ def main():
     loading_screen(root)
 
     root.mainloop()
-
 
 if __name__ == "__main__":
     main()
