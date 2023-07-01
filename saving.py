@@ -1,7 +1,9 @@
 import os
+from logger import log_decorator
 import logging
-
 # Configure the logging module
+
+@log_decorator
 def create_logger():
     try:
         # Create a log file in the saving directory
@@ -12,8 +14,9 @@ def create_logger():
     except OSError as e:
         logging.error(f"{e}: occurred while creating logger")
 
+@log_decorator
 def check_access():
-    try:
+    
         # Check if the saving directory, config directory, notes directory, and notes files exist
         create_saving_dir()
         create_logger()
@@ -26,81 +29,77 @@ def check_access():
             create_configdir()
             create_notesdir()
             return True
-    except OSError as e:
-        logging.error(f"{e}: occurred while checking access")
+    
 
+@log_decorator
 def create_saving_dir():
-    try:
+    
         # Check if the saving directory exists, and create it if it doesn't
         if not os.path.exists(return_saving_dir()):
             os.mkdir(return_saving_dir())
             return True
         else:
             return False
-    except OSError as e:
-        logging.error(f"{e}: occurred while creating saving directory")
-
+   
+@log_decorator
 def saving_dir_exists():
-    try:
+    
         # Check if the saving directory exists
         return os.path.exists(return_saving_dir())
-    except OSError as e:
-        logging.error(f"{e}: occurred while checking saving directory")
-
+    
+@log_decorator
 def configdir_exists():
-    try:
-        # Check if the config directory exists
+    # Check if the config directory exists
         return os.path.exists(return_configdir())
-    except OSError as e:
-        logging.error(f"{e}: occurred while checking config directory")
-        return False
-
+    
+@log_decorator
 def notesdir_exists():
-    try:
+    
         # Check if the notes directory exists
         return os.path.exists(return_notesdir())
-    except OSError as e:
-        logging.error(f"{e}: occurred while checking notes directory")
-        return False
+    
 
+@log_decorator
 def create_configdir():
-    try:
-        # Create the config directory
-        os.mkdir(return_configdir())
-    except OSError as e:
-        logging.error(f"{e}: occurred while creating config directory")
+   
+    # Create the config directory
+    os.mkdir(return_configdir())
+    
 
+@log_decorator
 def return_configdir():
     # Return the path to the config directory in the saving directory
     return os.path.join(return_saving_dir(), 'CONFIGURATION')
 
+@log_decorator
 def return_notesdir():
     # Return the path to the notes directory in the saving directory
     return os.path.join(return_saving_dir(), 'NOTES')
 
+@log_decorator
 def return_saving_dir():
     # Return the path to the saving directory in the current working directory
     return os.path.join(os.getcwd(), 'SAVING')
 
+@log_decorator
 def return_logger():
     # Return the path to the logger file in the current working directory
     return os.path.join(return_saving_dir(), 'notesapp.log')
     
-
+@log_decorator
 def create_notesdir():
-    try:
-        # Create the notes directory
-        os.mkdir(return_notesdir())
-    except OSError as e:
-        logging.error(f"{e}: occurred while creating notes directory")
+    
+    # Create the notes directory
+    os.mkdir(return_notesdir())
 
+@log_decorator
 def check_notes_exists():
-    try:
-        # Get a list of note file names from the notes directory and the config directory,
-        # and check if they have the same set of names
-        notes_files = [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(return_notesdir())]
-        config_files = [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(return_configdir())]
-        if set(notes_files) == set(config_files):
-            return True
-    except OSError as e:
-        logging.error(f"{e}:occurred while checking notes existence")
+    
+    # Get a list of note file names from the notes directory and the config directory,
+    # and check if they have the same set of names
+    notes_files = [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(return_notesdir())]
+    config_files = [os.path.splitext(os.path.basename(f))[0] for f in os.listdir(return_configdir())]
+    if set(notes_files) == set(config_files):
+        return True
+    
+check_access()
