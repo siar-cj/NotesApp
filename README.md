@@ -35,7 +35,7 @@ To get started with the Python Notes Application, follow these steps:
 3. Run the application:
 
    ```bash
-   Python NotesApp.py
+   Python NotesApp.py (W.I.P)
    ```
 
 ## Usage
