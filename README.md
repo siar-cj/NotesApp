@@ -32,10 +32,10 @@ To get started with the Python Notes Application, follow these steps:
    cd saving
    ```
 
-3. Run the application:
+3. Run the application(W.I.P):
 
    ```bash
-   Python NotesApp.py (W.I.P)
+   Python NotesApp.py 
    ```
 
 ## Usage
