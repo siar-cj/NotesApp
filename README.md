@@ -27,11 +27,15 @@ To get started with the Python Notes Application, follow these steps:
    ```
 
 
+2. Navigate to the project directory:
+   ```bash
+   cd NotesApp
+   ```
 
-2. Run the application:
+3. Run the application:
 
    ```bash
-   Python NotesApp.py 
+   python NotesApp.py 
    ```
 
 ## Usage
