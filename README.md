@@ -26,13 +26,9 @@ To get started with the Python Notes Application, follow these steps:
    git clone https://github.com/Build-Your-Dream-Python-Project/NOTES-APP.git
    ```
 
-2. Navigate to the project directory:
 
-   ```bash
-   cd saving
-   ```
 
-3. Run the application(W.I.P):
+2. Run the application:
 
    ```bash
    Python NotesApp.py 
